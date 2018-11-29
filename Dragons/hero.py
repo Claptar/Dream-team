@@ -20,7 +20,7 @@ class Hero(Attacker):
         return self._experience > 99
 
     def lvl_up(self):
-        self._attack += 150
+        self._attack += 100
         self._health = 100
 
     def exp_down(self):
