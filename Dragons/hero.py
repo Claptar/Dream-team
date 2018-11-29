@@ -11,7 +11,6 @@ class Hero(Attacker):
 
     def attack(self, target):
         target._health -= self._attack
-        print(target._color, target._health, '/', target._health_full, 'HP')
 
     def exp_gain(self, target):
         self._experience += target._experience
