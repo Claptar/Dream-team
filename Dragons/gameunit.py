@@ -2,6 +2,7 @@
 class Attacker:
     _health = None
     _attack = None
+    _health_full = None
 
     def attack(self, target):
         target._health -= self._attack
