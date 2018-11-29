@@ -30,7 +30,8 @@ class Dragon(Enemy):
 class GreenDragon(Dragon):
     def __init__(self):
         self._health = 200
-        self._attack = 10
+        self._health_full = self._health
+        self._attack = 20
         self._color = 'зеленый'
 
     def question(self):
@@ -44,7 +45,8 @@ class GreenDragon(Dragon):
 class RedDragon(Dragon):
     def __init__(self):
         self._health = 300
-        self._attack = 15
+        self._health_full = self._health
+        self._attack = 30
         self._color = 'красный'
 
     def question(self):
@@ -58,7 +60,8 @@ class RedDragon(Dragon):
 class BlackDragon(Dragon):
     def __init__(self):
         self._health = 1000
-        self._attack = 5
+        self._health_full = self._health
+        self._attack = 40
         self._color = 'черный'
 
     def question(self):
