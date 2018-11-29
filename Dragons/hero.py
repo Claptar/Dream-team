@@ -5,7 +5,7 @@ class Hero(Attacker):
     def __init__(self, name):
         self._health = 100
         self._health_full = 100
-        self._attack = 10
+        self._attack = 25
         self._experience = 0
         self.name = name
 
@@ -20,7 +20,7 @@ class Hero(Attacker):
         return self._experience > 99
 
     def lvl_up(self):
-        self._attack += 10
+        self._attack += 150
         self._health = 100
 
     def exp_down(self):
