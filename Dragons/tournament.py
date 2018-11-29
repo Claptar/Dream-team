@@ -21,10 +21,12 @@ def game_tournament(hero, dragon_list):
 
             if dragon.check_answer(answer):
                 hero.attack(dragon)
-                print('Верно!)
+                print('Верно!')
+                print(dragon._health,' из' , dragon._health_full, " HP")
             else:
                 dragon.attack(hero)
                 print('Ошибка! \nБудь внимательнее!')
+                print('Ваше здоровье ',hero._health,' из ', hero._health_full, ' HP')
         if dragon.is_alive():
             break
         print('Дракон', dragon._color, 'повержен!\n')
@@ -38,7 +40,7 @@ def game_tournament(hero, dragon_list):
 
 def start_game():
         print('Добро пожаловать на поле арифметической битвы!')
-        print('Представьтесь, пожалуйста: ', end='')
+        print('Представьтесь, пожалуйста : ', end='')
         hero = Hero(input())
 
         dragon_number = 3
