@@ -2,6 +2,7 @@ import math
 import random
 from tkinter import *
 import graphics as gr
+from PIL import Image, ImageTk
 
 
 class Vector:
@@ -257,8 +258,10 @@ def line_drawer():
 
 root = Tk()
 fr = Frame(root)
-root.geometry('1000x800')
-canv = Canvas(root, bg='white')
+root.overrideredirect(True)
+root.overrideredirect(False)
+root.attributes('-fullscreen',True)
+canv = Canvas(root, width=root.winfo_screenwidth(), height=root.winfo_screenheight(), bg='white')
 im = PhotoImage()
 n = 3
 time_counter = 0
