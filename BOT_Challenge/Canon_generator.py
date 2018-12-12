@@ -8,7 +8,7 @@ import Canon
 
 
 def find_place():
-    x = random.randint(0, 100)
+    x = random.randint(0, 300)
     y = 0
     while Landskape.img.get(x, y) != Landskape.check_color:
         y += 1
