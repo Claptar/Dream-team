@@ -3,6 +3,7 @@ import random
 from tkinter import *
 import graphics as gr
 from PIL import Image, ImageTk
+import Landskape
 
 
 class Vector:
@@ -136,6 +137,7 @@ class Shell:
         y2 = y + Standard_Radius
         self.delta_x = 0
         self.delta_y = 0
+        self.collision = False
 
         self.canvas = canvas
 
@@ -149,7 +151,6 @@ class Shell:
         :param dt: время элементарного перемещения
         :return: Движущийся снаряд
         """
-
         ax, ay = 0, G
         self.delta_x = self.vx * dt * math.cos(self.direction) + ax * (dt ** 2) / 2
         self.delta_y = self.vy * dt * math.sin(self.direction) + ay * (dt ** 2) / 2
@@ -157,13 +158,18 @@ class Shell:
         self.y += self.delta_y
         self.vx += ax * dt
         self.vy += -ay * dt
+        if not Landskape.color_checker(int(self.x//1), int(self.y//1)):
+            self.draw()
+        else:
+            if not self.collision:
+                self.collision = True
+                return [self.x, self.y]
 
-        self.draw()
 
-        if self.y > 1000:
-            self.canvas.delete(self.oval)
-        if self.x > 1000:
-            self.vx = -self.vx
+        # if self.y > 1000:
+        #     self.canvas.delete(self.oval)
+        # if self.x > 1000:
+        #     self.vx = -self.vx
 
     def draw(self):
         """
@@ -171,16 +177,6 @@ class Shell:
         :return:
         """
         self.canvas.move(self.oval, self.delta_x, self.delta_y)
-
-    def detect_collision(self, other):
-        """
-        Проверяет факт соприкосновения снаряда и объекта other
-        :param other: объект, который должен иметь поля x, y, r
-        :return: логическое значение типа bool
-        """
-
-        length = ((self.x - other.x) ** 2 + (self.y - other.y) ** 2) ** 0.5
-        return length <= self.r + other.r
 
 
 def hit_checker(shell, target):
@@ -216,6 +212,9 @@ def tick():
     for g in range(len(shells)):
         if shells[g] != 0:
             shells[g].go(0.1)
+            if Landskape.color_checker(int(shells[g].x), int(shells[g].y)):
+                canv.delete(shells[g].oval)
+                shells[g] = 0
     root.after(10, tick)
 
 
@@ -256,7 +255,8 @@ def line_drawer():
                                       width=20, fill="blue")
     root.after(100, line_drawer)
 
-root = Tk()
+
+root = Toplevel()
 fr = Frame(root)
 root.overrideredirect(True)
 root.overrideredirect(False)
@@ -279,5 +279,6 @@ score = 0
 #score_text = canv.create_text(200, 60, text='Попадания score = {} '.format(score), font='Arial 25', )
 shells = []
 cannon = 0
+bot = 0
 
 
