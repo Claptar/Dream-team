@@ -3,6 +3,7 @@ import random
 from tkinter import *
 import Canon
 import Canon_generator as cg
+import Landskape
 from PIL import Image, ImageTk
 root1 = Canon.root
 root1.overrideredirect(True)
@@ -12,6 +13,7 @@ canvas = Canon.canv
 canvas.pack(fill=BOTH, expand=1)
 
 ball_image = ImageTk.PhotoImage(Image.open('1.png'))
+Landskape.print_landskape()
 #canvas.create_image(ball_image.size[0], root1.winfo_screenheight()/2, image=ball_image)
 cannon = cg.create(canvas)
 bot_cannon = Canon.Cannon(canvas, 500, 600)
