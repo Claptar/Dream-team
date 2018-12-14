@@ -63,13 +63,14 @@ class Cannon:
         self.power_speed = 0
         self.cannon_diametr = 80
         self.line_length = 80
-        self.line = canv.create_line(x + 30, y + 30,
+        self.line = canv.create_line(x, y,
                                      x + 110,
                                      y + 110,
                                      width=20, fill="red")
-        self.oval = canv.create_oval(x, y,
-                                     x + self.cannon_diametr,
-                                     y + self.cannon_diametr,
+        self.oval = canv.create_oval(x - self.cannon_diametr/2,
+                                     y - self.cannon_diametr/2,
+                                     x + self.cannon_diametr/2,
+                                     y + self.cannon_diametr/2,
                                      outline="black", fill="black")
 
     def aim(self, x, y):
@@ -83,7 +84,7 @@ class Cannon:
 
         self.direction = math.atan((self.y - y)/(self.x - x))
 
-        self.draw(self.x+40, self.y+40)
+        self.draw(self.x, self.y)
 
     def fire(self):
         """
@@ -95,8 +96,8 @@ class Cannon:
         if len(shells) < 10:
             time_length = self.stop_time - self.start_time
             self.power_speed = time_length
-            shell = Shell(self.x + 40 + self.line_length*math.cos(self.direction),
-                          self.y + 40 + self.line_length*math.sin(self.direction),
+            shell = Shell(self.x + self.line_length*math.cos(self.direction),
+                          self.y + self.line_length*math.sin(self.direction),
                           self.power_speed, self.power_speed, self.canvas, self.direction)
 
             shells.append(shell)
@@ -158,12 +159,15 @@ class Shell:
         self.y += self.delta_y
         self.vx += ax * dt
         self.vy += -ay * dt
-        if not Landskape.color_checker(int(self.x//1), int(self.y//1)):
-            self.draw()
+        if self.x < 1300 and self.y > 0:
+            if not Landskape.color_checker(int(self.x//1), int(self.y//1)):
+                self.draw()
+            else:
+                if not self.collision:
+                    self.collision = True
+                    return [self.x, self.y]
         else:
-            if not self.collision:
-                self.collision = True
-                return [self.x, self.y]
+            self.draw()
 
 
         # if self.y > 1000:
@@ -212,9 +216,10 @@ def tick():
     for g in range(len(shells)):
         if shells[g] != 0:
             shells[g].go(0.1)
-            if Landskape.color_checker(int(shells[g].x), int(shells[g].y)):
-                canv.delete(shells[g].oval)
-                shells[g] = 0
+            if shells[g].x < 1300 and shells[g].y > 0:
+                if Landskape.color_checker(int(shells[g].x), int(shells[g].y)):
+                    canv.delete(shells[g].oval)
+                    shells[g] = 0
     root.after(10, tick)
 
 
