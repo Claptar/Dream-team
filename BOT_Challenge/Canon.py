@@ -81,6 +81,8 @@ class Cannon:
         self.score = 0
         self.health = 200
         self.shells = []
+        self.stop_time = 0
+        self.start_time = 0
 
     def aim(self, x, y):
         """
@@ -297,7 +299,7 @@ line_power = canv.create_line(20, 700,
 G = 9.8  # Ускорение свободного падения для снаряда.
 Standard_Radius = 10
 #score_text = canv.create_text(200, 60, text='Попадания score = {} '.format(score), font='Arial 25', )
-cannon = 0
-bot = 0
+cannon = Cannon(canv, 1, 1000)
+bot = Cannon(canv, 1, 10000)
 
 
