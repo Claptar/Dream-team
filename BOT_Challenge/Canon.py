@@ -52,9 +52,14 @@ class Vector:
 
 
 class Cannon:
-    max_velocity = 100
+    max_velocity = 120
 
     def __init__(self, canvas, x, y):
+        """
+        :param canvas: канва, на которой происходит рисование пушки
+        :param x: х координата центра пушки
+        :param y: y координата центра пушки
+        """
         self.canvas = canvas
         self.x = x
         self.y = y
@@ -72,6 +77,10 @@ class Cannon:
                                      x + self.cannon_diametr/2,
                                      y + self.cannon_diametr/2,
                                      outline="black", fill="black")
+        self.shots = 0
+        self.score = 0
+        self.health = 200
+        self.shells = []
 
     def aim(self, x, y):
         """
@@ -81,10 +90,12 @@ class Cannon:
         :param y: координата y, в которую целимся
         :return: None
         """
-
-        self.direction = math.atan((self.y - y)/(self.x - x))
-
-        self.draw(self.x, self.y)
+        if x > self.x:
+            self.direction = math.atan((self.y - y)/(self.x - x))
+            self.draw(self.x, self.y)
+        else:
+            self.direction = math.atan((self.y - y)/(self.x - x)) + math.pi
+            self.draw(self.x, self.y)
 
     def fire(self):
         """
@@ -93,14 +104,18 @@ class Cannon:
         со скоростью, зависящей от длительности клика мышки
         :return: экземпляр снаряда типа Shell
         """
-        if len(shells) < 10:
+        if len(self.shells) < 30:
             time_length = self.stop_time - self.start_time
-            self.power_speed = time_length
+            if time_length < self.max_velocity:
+                self.power_speed = time_length
+            else:
+                self.power_speed = self.max_velocity
             shell = Shell(self.x + self.line_length*math.cos(self.direction),
                           self.y + self.line_length*math.sin(self.direction),
                           self.power_speed, self.power_speed, self.canvas, self.direction)
 
-            shells.append(shell)
+            self.shells.append(shell)
+            self.shots += 1
         else:
             canv.create_text(200, 20, text="Закончились снаряды", font='Arial 25', )
             print("Закончились снаряды")
@@ -125,9 +140,20 @@ class Cannon:
 
 
 class Shell:
+    """
+    Класс шариков-снарядов
+    """
     global Standard_Radius
 
     def __init__(self, x, y, vx, vy, canvas, direction):
+        """
+        :param x: x - координата снаряда
+        :param y: y - координата снаряда
+        :param vx: x-компонента скорости
+        :param vy: y-компонента скорости
+        :param canvas: канва на которой отрисовываются снаряды
+        :param direction: направление выстрела снаряда
+        """
         self.x, self.y = x, y
         self.vx, self.vy = vx, vy
         self.direction = direction
@@ -139,6 +165,7 @@ class Shell:
         self.delta_x = 0
         self.delta_y = 0
         self.collision = False
+        self.hit = False
 
         self.canvas = canvas
 
@@ -150,7 +177,7 @@ class Shell:
         и длины кванта времени dt
         в новое положение, а также меняет его скорость.
         :param dt: время элементарного перемещения
-        :return: Движущийся снаряд
+        :return: none
         """
         ax, ay = 0, G
         self.delta_x = self.vx * dt * math.cos(self.direction) + ax * (dt ** 2) / 2
@@ -159,7 +186,7 @@ class Shell:
         self.y += self.delta_y
         self.vx += ax * dt
         self.vy += -ay * dt
-        if self.x < 1300 and self.y > 0:
+        if self.x < 1300 and (self.y > 0 and self.x > 0):
             if not Landskape.color_checker(int(self.x//1), int(self.y//1)):
                 self.draw()
             else:
@@ -169,12 +196,6 @@ class Shell:
         else:
             self.draw()
 
-
-        # if self.y > 1000:
-        #     self.canvas.delete(self.oval)
-        # if self.x > 1000:
-        #     self.vx = -self.vx
-
     def draw(self):
         """
         Рисует движущийся снаряд
@@ -183,22 +204,10 @@ class Shell:
         self.canvas.move(self.oval, self.delta_x, self.delta_y)
 
 
-def hit_checker(shell, target):
-    """
-        :param shell: снаряд
-        :param target: шарик-мишень
-        :return: столкнулись или нет
-        """
-    if shell == 0 or target == 0:
-        return False
-    if (shell.x - target.x) ** 2 + (shell.y - target.y) ** 2 <= (target.r + shell.r) ** 2:
-        return True
-
-
 def mouse_move_handler(event):
     """
-    Направляет дуло пушки в сторону курсора
-    :param event: перемещение курсора по экрану
+    Направляет дуло пушки в сторону курсора. Связывает положение курсора и направление дула.
+    :param event: перемещение курсора по экрану.
     :return: Координаты курсорв мыши
     """
     cannon.aim(event.x, event.y)
@@ -210,16 +219,22 @@ def tick():
         Заставляет двигаьтся снаряды и мишени и проверяет их на столкновение
         :return:
         """
-    global Balls, score, score_text
     global time_counter
     time_counter += 1
-    for g in range(len(shells)):
-        if shells[g] != 0:
-            shells[g].go(0.1)
-            if shells[g].x < 1300 and shells[g].y > 0:
-                if Landskape.color_checker(int(shells[g].x), int(shells[g].y)):
-                    canv.delete(shells[g].oval)
-                    shells[g] = 0
+    for g in range(len(cannon.shells)):
+        if cannon.shells[g] != 0:
+            cannon.shells[g].go(0.1)
+            if cannon.shells[g].x < 1300 and (cannon.shells[g].y > 0 and cannon.shells[g].x > 0):
+                if Landskape.color_checker(int(cannon.shells[g].x),
+                                           int(cannon.shells[g].y)):
+                    canv.delete(cannon.shells[g].oval)
+                    cannon.shells[g] = 0
+                if cannon.shells[g] != 0 and (math.sqrt(
+                        (cannon.shells[g].x - bot.x) ** 2 + (cannon.shells[g].y - bot.y) ** 2)
+                        < bot.cannon_diametr / 2):
+                    canv.delete(cannon.shells[g].oval)
+                    cannon.shells[g] = 0
+                    cannon.score += 1
     root.after(10, tick)
 
 
@@ -251,6 +266,10 @@ def time_stop(event):
 
 
 def line_drawer():
+    """
+    отрисовка шкалы силы выстрела
+    :return:
+    """
     global time_checker, time_counter, line_power
     if time_checker:
         canv.delete(line_power)
@@ -265,7 +284,7 @@ root = Toplevel()
 fr = Frame(root)
 root.overrideredirect(True)
 root.overrideredirect(False)
-root.attributes('-fullscreen',True)
+root.attributes('-fullscreen', True)
 canv = Canvas(root, width=root.winfo_screenwidth(), height=root.winfo_screenheight(), bg='white')
 im = PhotoImage()
 n = 3
@@ -277,12 +296,7 @@ line_power = canv.create_line(20, 700,
                               width=20, fill="blue")
 G = 9.8  # Ускорение свободного падения для снаряда.
 Standard_Radius = 10
-Balls = []
-for b in range(n):
-    Balls.append(0)
-score = 0
 #score_text = canv.create_text(200, 60, text='Попадания score = {} '.format(score), font='Arial 25', )
-shells = []
 cannon = 0
 bot = 0
 
