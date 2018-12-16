@@ -14,9 +14,9 @@ canvas.pack(fill=BOTH, expand=1)
 
 ball_image = ImageTk.PhotoImage(Image.open('1.png'))
 Landskape.print_landskape()
-#canvas.create_image(ball_image.size[0], root1.winfo_screenheight()/2, image=ball_image)
-cannon = cg.create(canvas)
-#bot_cannon = Canon.Cannon(canvas, 500, 600)
+cannon = cg.create(canvas, 0, 500)
+bot_cannon = cg.create(canvas, 800, 1300)
+Canon.bot = bot_cannon
 Canon.cannon = cannon
 canvas.bind('<Motion>', Canon.mouse_move_handler)
 canvas.bind("<ButtonPress-1>", Canon.time_start)
