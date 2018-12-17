@@ -237,20 +237,6 @@ def tick():
                     canv.delete(cannon.shells[g].oval)
                     cannon.shells[g] = 0
                     cannon.score += 1
-    for g in range(len(bot.shells)):
-        if bot.shells[g] != 0:
-            bot.shells[g].go(0.1)
-            if bot.shells[g].x < 1300 and (bot.shells[g].y > 0 and bot.shells[g].x > 0):
-                if Landskape.color_checker(int(bot.shells[g].x),
-                                           int(bot.shells[g].y)):
-                    canv.delete(bot.shells[g].oval)
-                    bot.shells[g] = 0
-                if bot.shells[g] != 0 and (math.sqrt(
-                        (bot.shells[g].x - bot.x) ** 2 + (bot.shells[g].y - bot.y) ** 2)
-                        < bot.cannon_diametr / 2):
-                    canv.delete(bot.shells[g].oval)
-                    bot.shells[g] = 0
-                    bot.score += 1
     root.after(10, tick)
 
 

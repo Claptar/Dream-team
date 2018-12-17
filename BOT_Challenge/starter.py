@@ -14,7 +14,7 @@ canvas = Canon.canv
 canvas.pack(fill=BOTH, expand=1)
 
 ball_image = ImageTk.PhotoImage(Image.open('1.png'))
-Landskape.print_landskape()
+#Landskape.print_landskape()
 cannon = cg.create(canvas, 0, 500)
 bot_cannon = Canon.bot
 Canon.cannon = cannon
@@ -23,5 +23,6 @@ canvas.bind("<ButtonPress-1>", Canon.time_start)
 canvas.bind("<ButtonRelease-1>", Canon.time_stop)
 Canon.tick()
 bot.bot_fire()
+bot.go()
 Canon.line_drawer()
 root1.mainloop()
