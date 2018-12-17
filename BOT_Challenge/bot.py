@@ -16,6 +16,8 @@ bot.stop_time = 100
 def bot_fire():
     bot.fire()
     root.after(1000, bot_fire)
+    print("bot_health = ", bot.health)
+    print("cannon_health = ", Canon.cannon.health)
 
 
 def go():
@@ -33,6 +35,7 @@ def go():
                     canvas.delete(bot.shells[g].oval)
                     bot.shells[g] = 0
                     bot.score += 1
+                    Canon.cannon.health -= 20
     root.after(10, go)
 
 

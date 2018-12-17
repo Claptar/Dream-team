@@ -237,6 +237,7 @@ def tick():
                     canv.delete(cannon.shells[g].oval)
                     cannon.shells[g] = 0
                     cannon.score += 1
+                    bot.health -= 20
     root.after(10, tick)
 
 
