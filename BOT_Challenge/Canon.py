@@ -292,6 +292,8 @@ root.overrideredirect(True)
 root.overrideredirect(False)
 root.attributes('-fullscreen', True)
 canv = Canvas(root, width=root.winfo_screenwidth(), height=root.winfo_screenheight(), bg='white')
+bg_image = ImageTk.PhotoImage(Image.open('1.png'))
+bg = canv.create_image(1356/2, 774/2, image=bg_image)
 im = PhotoImage()
 n = 3
 time_counter = 0
