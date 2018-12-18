@@ -234,6 +234,7 @@ def tick():
                 if cannon.shells[g] != 0 and (math.sqrt(
                         (cannon.shells[g].x - bot.x) ** 2 + (cannon.shells[g].y - bot.y) ** 2)
                         < bot.cannon_diametr / 2):
+                    boom_drawer(cannon.shells[g].x, cannon.shells[g].y)
                     canv.delete(cannon.shells[g].oval)
                     cannon.shells[g] = 0
                     cannon.score += 1
@@ -268,8 +269,14 @@ def time_stop(event):
     time_checker = False
 
 
-def colaps(x, y):
-    pass
+def boom_drawer(x, y):
+    global boom
+    boom = canv.create_image(x, y, image=boom_image)
+    root.after(400, clear_boom)
+
+
+def clear_boom():
+    canv.delete(boom)
 
 
 def line_drawer():
@@ -287,6 +294,7 @@ def line_drawer():
     root.after(100, line_drawer)
 
 
+
 root = Toplevel()
 fr = Frame(root)
 root.overrideredirect(True)
@@ -295,6 +303,8 @@ root.attributes('-fullscreen', True)
 canv = Canvas(root, width=root.winfo_screenwidth(), height=root.winfo_screenheight(), bg='white')
 bg_image = ImageTk.PhotoImage(Image.open('1.png'))
 bg = canv.create_image(1356/2, 774/2, image=bg_image)
+boom_image = ImageTk.PhotoImage(Image.open('boom.png'))
+boom = canv.create_image(200, 1000, image=boom_image)
 im = PhotoImage()
 n = 3
 time_counter = 0
