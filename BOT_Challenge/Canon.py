@@ -282,6 +282,10 @@ def clear_boom():
 
 def poof_drawer(x, y):
     global poof
+    canv.create_oval(x - Standard_Radius, y - Standard_Radius,
+                     x + Standard_Radius, y + Standard_Radius,
+                     fill=gr.color_rgb(0, 162, 232),
+                     outline=gr.color_rgb(0, 162, 232))
     poof = canv.create_image(x, y, image=poof_image)
     root.after(100, clear_poof)
 
