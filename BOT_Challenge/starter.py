@@ -18,9 +18,16 @@ canvas.pack(fill=BOTH, expand=1)
 cannon = cg.create(canvas, 0, 500)
 bot_cannon = Canon.bot
 Canon.cannon = cannon
+
+
+def end(event):
+    raise SystemExit
+
+
 canvas.bind('<Motion>', Canon.mouse_move_handler)
 canvas.bind("<ButtonPress-1>", Canon.time_start)
 canvas.bind("<ButtonRelease-1>", Canon.time_stop)
+canvas.bind("<ButtonRelease-3>", end)
 Canon.tick()
 bot.bot_fire()
 bot.go()
