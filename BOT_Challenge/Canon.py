@@ -229,6 +229,7 @@ def tick():
             if cannon.shells[g].x < 1300 and (cannon.shells[g].y > 0 and cannon.shells[g].x > 0):
                 if Landskape.color_checker(int(cannon.shells[g].x),
                                            int(cannon.shells[g].y)):
+                    poof_drawer(cannon.shells[g].x, cannon.shells[g].y)
                     canv.delete(cannon.shells[g].oval)
                     cannon.shells[g] = 0
                 if cannon.shells[g] != 0 and (math.sqrt(
@@ -272,11 +273,21 @@ def time_stop(event):
 def boom_drawer(x, y):
     global boom
     boom = canv.create_image(x, y, image=boom_image)
-    root.after(400, clear_boom)
+    root.after(100, clear_boom)
 
 
 def clear_boom():
     canv.delete(boom)
+
+
+def poof_drawer(x, y):
+    global poof
+    poof = canv.create_image(x, y, image=poof_image)
+    root.after(100, clear_poof)
+
+
+def clear_poof():
+    canv.delete(poof)
 
 
 def line_drawer():
@@ -305,6 +316,8 @@ bg_image = ImageTk.PhotoImage(Image.open('1.png'))
 bg = canv.create_image(1356/2, 774/2, image=bg_image)
 boom_image = ImageTk.PhotoImage(Image.open('boom.png'))
 boom = canv.create_image(200, 1000, image=boom_image)
+poof_image = ImageTk.PhotoImage(Image.open('poof.png'))
+poof = canv.create_image(200, 1000, image=poof_image)
 im = PhotoImage()
 n = 3
 time_counter = 0

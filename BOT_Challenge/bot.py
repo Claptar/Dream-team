@@ -29,6 +29,7 @@ def go():
             if bot.shells[g].x < 1300 and (bot.shells[g].y > 0 and bot.shells[g].x > 0):
                 if Landskape.color_checker(int(bot.shells[g].x),
                                            int(bot.shells[g].y)):
+                    Canon.poof_drawer(bot.shells[g].x, bot.shells[g].y)
                     canvas.delete(bot.shells[g].oval)
                     bot.shells[g] = 0
                 if bot.shells[g] != 0 and (math.sqrt(
