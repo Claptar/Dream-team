@@ -39,7 +39,10 @@ def go():
                     canvas.delete(bot.shells[g].oval)
                     bot.shells[g] = 0
                     bot.score += 1
-                    Canon.cannon.health -= 20
+                    if Canon.cannon.health > bot.damage:
+                        Canon.cannon.health -= bot.damage
+                    else:
+                        Canon.cannon.health = 0
     root.after(10, go)
 
 

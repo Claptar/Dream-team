@@ -83,6 +83,7 @@ class Cannon:
         self.shells = []
         self.stop_time = 0
         self.start_time = 0
+        self.damage = 40
 
     def aim(self, x, y):
         """
@@ -127,7 +128,6 @@ class Cannon:
         Рисует дуло пушки, которое движется в зависимости от перемещений мышки
         :return:
         """
-        global y_end
         self.canvas.delete(self.line)
         x_start = x_gun + math.cos(self.direction)*self.cannon_diametr/8
         y_start = y_gun + math.sin(self.direction) * self.cannon_diametr / 8
@@ -239,7 +239,10 @@ def tick():
                     canv.delete(cannon.shells[g].oval)
                     cannon.shells[g] = 0
                     cannon.score += 1
-                    bot.health -= 20
+                    if bot.health > cannon.damage:
+                        bot.health -= cannon.damage
+                    else:
+                        bot.health = 0
     root.after(10, tick)
 
 
@@ -309,7 +312,6 @@ def line_drawer():
     root.after(100, line_drawer)
 
 
-
 root = Toplevel()
 fr = Frame(root)
 root.overrideredirect(True)
@@ -332,8 +334,6 @@ line_power = canv.create_line(20, 700,
                               width=20, fill="blue")
 G = 9.8  # Ускорение свободного падения для снаряда.
 Standard_Radius = 10
-#score_text = canv.create_text(200, 60, text='Попадания score = {} '.format(score), font='Arial 25', )
 cannon = Cannon(canv, 1, 1000)
+#score_text = canv.create_text(200, 60, text='Попадания score = {} '.format(cannon.score), font='Arial 25', )
 bot = Cannon(canv, 1, 10000)
-
-
