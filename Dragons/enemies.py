@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 # coding: utf-8
 # license: GPLv3
 from gameunit import *
@@ -73,3 +75,4 @@ class BlackDragon(Dragon):
 
 
 enemy_types = [GreenDragon, RedDragon, BlackDragon]
+>>>>>>> 636fbf8f5e22b5ac106555fed122ae59d214ac09
