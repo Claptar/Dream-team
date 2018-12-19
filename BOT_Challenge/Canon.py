@@ -52,7 +52,7 @@ class Vector:
 
 
 class Cannon:
-    max_velocity = 120
+    max_velocity = 1200
 
     def __init__(self, canvas, x, y):
         """
@@ -115,7 +115,8 @@ class Cannon:
                 self.power_speed = self.max_velocity
             shell = Shell(self.x + self.line_length*math.cos(self.direction),
                           self.y + self.line_length*math.sin(self.direction),
-                          self.power_speed, self.power_speed, self.canvas, self.direction)
+                          self.power_speed*math.cos(self.direction), self.power_speed*math.sin(self.direction),
+                          self.canvas, self.direction)
 
             self.shells.append(shell)
             self.shots += 1
@@ -172,22 +173,25 @@ class Shell:
         self.canvas = canvas
 
         self.oval = self.canvas.create_oval(x1, y1, x2, y2, fill='red', outline="pink")
+        self.x_down = 0
+        self.y_down = 0
 
-    def go(self, dt):
+    def go(self):
         """
         Сдвигает снаряд исходя из его кинематических характеристик
         и длины кванта времени dt
         в новое положение, а также меняет его скорость.
-        :param dt: время элементарного перемещения
+        #:param dt: время элементарного перемещения
         :return: none
         """
         ax, ay = 0, G
-        self.delta_x = self.vx * dt * math.cos(self.direction) + ax * (dt ** 2) / 2
-        self.delta_y = self.vy * dt * math.sin(self.direction) + ay * (dt ** 2) / 2
+        dt = 0.1
+        self.delta_x = self.vx * dt + ax * (dt ** 2) / 2
+        self.delta_y = self.vy * dt + ay * (dt ** 2) / 2
         self.x += self.delta_x
         self.y += self.delta_y
         self.vx += ax * dt
-        self.vy += -ay * dt
+        self.vy += ay * dt
         if self.x < 1300 and (self.y > 0 and self.x > 0):
             if not Landskape.color_checker(int(self.x//1), int(self.y//1)):
                 self.draw()
@@ -225,7 +229,7 @@ def tick():
     time_counter += 1
     for g in range(len(cannon.shells)):
         if cannon.shells[g] != 0:
-            cannon.shells[g].go(0.1)
+            cannon.shells[g].go()
             if cannon.shells[g].x < 1300 and (cannon.shells[g].y > 0 and cannon.shells[g].x > 0):
                 if Landskape.color_checker(int(cannon.shells[g].x),
                                            int(cannon.shells[g].y)):
