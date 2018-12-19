@@ -12,53 +12,42 @@ Canon.bot = bot
 bot.aim(700, 200)
 bot.start_time = 0
 bot.stop_time = 70
-angle = 0.5
+angle = 0.8
+cannon_was_found = False
 
 
 def bot_aim():
-    global angle
-    cannon_was_found = False
-    #v_shell = 70
+    global angle, cannon_was_found
     num = 0
-    for g in range(len(bot.shells)):
-        if bot.shells[g] != 0:
-            if bot.shells[g].x_down != 0:
-                num = g
-    if num != 0:
-        if (bot.shells[num].x_down - Canon.cannon.x) < 100 and bot.shells[num].y_down - Canon.cannon.y < 100:
-            cannon_was_found = True
-        elif bot.shells[num].x_down < Canon.cannon.x:
-            bot.stop_time -= 6
-        elif bot.shells[num].x_down > Canon.cannon.x and bot.shells[num].y_down - Canon.cannon.y > 200:
-            bot.stop_time += 4
-            angle += math.radians(5)
-        elif bot.shells[num].x_down > Canon.cannon.x and bot.shells[num].y_down - Canon.cannon.y < 200:
-            bot.stop_time += 4
-
-
-    # # tg_angle = (Canon.cannon.x - math.sqrt(Canon.cannon.x**2 -
-    # #                                        4*Canon.cannon.x**2*Canon.G/(2*v_shell**2)
-    # #                                        * (Canon.cannon.x**2*Canon.G/(2 * v_shell**2)
-    # #                                           + (Canon.cannon.y - bot.y)))
-    # #             / (Canon.cannon.x**2*Canon.G/(2*v_shell**2)))
-    # v = math.sqrt(Canon.G*(bot.x - Canon.cannon.x)**2*(1 + tg_angle**2)/(2
-    #               * (Canon.cannon.x*tg_angle - (Canon.cannon.y - bot.y))))
-    # print("canon x =", Canon.cannon.x, "canon y =", Canon.cannon.y)
-    # print("bot x =", bot.x, "bot y =", bot.y)
-    # print("v  = ", v)
-    # print("cos = ", math.cos(math.atan(tg_angle)))
-    # print("angle = ", math.atan(tg_angle))
-    # print("sin = ", math.sin(math.pi))
-    # bot.stop_time = v
+    if not cannon_was_found:
+        for g in range(len(bot.shells)):
+            if bot.shells[g] != 0:
+                if bot.shells[g].x_down != 0:
+                    num = g
+        if num != 0:
+            if (bot.shells[num].x_down - Canon.cannon.x) < 100 and bot.shells[num].y_down - Canon.cannon.y < 100:
+                cannon_was_found = True
+            elif bot.shells[num].x_down < Canon.cannon.x:
+                bot.stop_time -= 6
+            elif bot.shells[num].x_down > Canon.cannon.x and bot.shells[num].y_down - Canon.cannon.y > 200:
+                bot.stop_time += 4
+                angle += math.radians(5)
+            elif bot.shells[num].x_down > Canon.cannon.x and bot.shells[num].y_down - Canon.cannon.y < 200:
+                bot.stop_time += 4
 
 
 def bot_fire():
     bot_aim()
-    bot.aim(bot.x - 100*math.cos(angle), bot.y - 100*math.sin(angle))
+    if cannon_was_found:
+        bot.aim(bot.x - 300 * math.cos(angle + math.radians(random.randint(-20, 20))),
+                bot.y - 300 * math.sin(angle + math.radians(random.randint(-20, 20))))
+    else:
+        bot.aim(bot.x - 100*math.cos(angle), bot.y - 100*math.sin(angle))
     bot.fire()
     root.after(1000, bot_fire)
     print("bot_health = ", bot.health)
     print("cannon_health = ", Canon.cannon.health)
+    print("shots = ", bot.shots)
 
 
 def go():
