@@ -1,5 +1,6 @@
 import math
 import random
+#from AI import *
 from tkinter import *
 import Canon
 import Canon_generator as cg

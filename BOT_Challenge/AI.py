@@ -1,29 +1,21 @@
-import cannon
+from Canon import *
+from Canon_generator import *
+from tkinter import *
+
+
 class AI:
-    def __init__(self):
-       pass
 
-    def create(self):
-        """
-        Создает объект пушки
-        :return:
-        """
-        cannon = Cannon()
+    ai_cannon = Cannon(canvas, x, y)
 
-    def aim(self, cannon.x, :
-        """
-        Направляет дуло пушки
-        :return:
-        :param x, y: координаты пушки противника
-        """
+    def shooting_preparation(self):
+        if check_hit.x == ai_cannon.x:
+            ai_cannon.aim(x + 10, y + 10)
+        elif check_hit.x - x > 50:
+            ai_cannon.aim(x, y + 10)
 
 
-    def fire(self):
-        """
-        Запускает ядро, учитывая координаты пушки противника
-        и предыдушие результаты выстрелов
-        :return:
-        """
+    def attack(self):
+        ai_cannon.fire.power = (ai_cannon.x - cannon.x)/2
 
     def check_hit(self, x, y):
         """
@@ -31,3 +23,5 @@ class AI:
         :param x, y: координаты попадания ядра
         :return:
         """
+
+

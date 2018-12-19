@@ -256,6 +256,7 @@ def line_drawer():
                                       width=20, fill="blue")
     root.after(100, line_drawer)
 
+
 root = Tk()
 fr = Frame(root)
 root.overrideredirect(True)
