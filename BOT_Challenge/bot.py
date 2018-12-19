@@ -7,12 +7,12 @@ import random
 root = Canon.root
 canvas = Canon.canv
 canvas.pack(fill=BOTH, expand=1)
-bot = cg.create(canvas, 800, 1300)
+bot = cg.create(canvas, 900, 1300)
 Canon.bot = bot
 bot.aim(700, 200)
 bot.start_time = 0
 bot.stop_time = 70
-angle = 0.8
+angle = 0.9
 cannon_was_found = False
 
 
@@ -39,21 +39,18 @@ def bot_aim():
 def bot_fire():
     bot_aim()
     if cannon_was_found:
-        bot.aim(bot.x - 300 * math.cos(angle + math.radians(random.randint(-20, 20))),
-                bot.y - 300 * math.sin(angle + math.radians(random.randint(-20, 20))))
+        bot.aim(bot.x - 300 * math.cos(angle + math.radians(random.randint(-20, 30))),
+                bot.y - 300 * math.sin(angle + math.radians(random.randint(-20, 30))))
     else:
         bot.aim(bot.x - 100*math.cos(angle), bot.y - 100*math.sin(angle))
     bot.fire()
-    root.after(1000, bot_fire)
+    root.after(700, bot_fire)
     print("bot_health = ", bot.health)
     print("cannon_health = ", Canon.cannon.health)
     print("shots = ", bot.shots)
 
 
 def go():
-    print("v = ", bot.stop_time)
-    x_down = 0
-    y_down = 0
     for g in range(len(bot.shells)):
         if bot.shells[g] != 0:
             bot.shells[g].go()
@@ -61,8 +58,9 @@ def go():
                 if Landskape.color_checker(int(bot.shells[g].x),
                                            int(bot.shells[g].y)):
                     Canon.poof_drawer(bot.shells[g].x, bot.shells[g].y)
-                    bot.shells[g + 1].x_down = bot.shells[g].x
-                    bot.shells[g + 1].y_down = bot.shells[g].y
+                    if not cannon_was_found:
+                        bot.shells[g + 1].x_down = bot.shells[g].x
+                        bot.shells[g + 1].y_down = bot.shells[g].y
                     canvas.delete(bot.shells[g].oval)
                     bot.shells[g] = 0
                 if bot.shells[g] != 0 and (math.sqrt(
