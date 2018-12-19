@@ -14,7 +14,7 @@ canvas = Canon.canv
 canvas.pack(fill=BOTH, expand=1)
 # bg_image = ImageTk.PhotoImage(Image.open('1.png'))
 # bg = canvas.create_image(1356/2, 774/2, image=bg_image)
-#Landskape.print_landskape()
+#Landskape.print_landskape()#Тестовый коммит
 cannon = cg.create(canvas, 0, 500)
 bot_cannon = Canon.bot
 Canon.cannon = cannon
