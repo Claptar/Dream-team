@@ -5,8 +5,8 @@ import graphics as gr
 from PIL import ImageTk, Image
 import Canon
 #(0, 162, 232)
-check_color = (185, 122, 87)
 img = PhotoImage(file="1.png")
+check_color = img.get(200, 700)
 
 
 def color_checker(x, y):

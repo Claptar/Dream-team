@@ -83,7 +83,7 @@ class Cannon:
         self.shells = []
         self.stop_time = 0
         self.start_time = 0
-        self.damage = 40
+        self.damage = 20
 
     def aim(self, x, y):
         """
@@ -119,7 +119,7 @@ class Cannon:
                           self.canvas, self.direction)
             shell.power_speed = self.power_speed
             shell.direction = self.direction
-            if len(self.shells) > 1:
+            if len(self.shells) > 1 and self.shells[len(self.shells) - 1] != 0:
                 shell.previous_power = self.shells[len(self.shells) - 1].power_speed
                 shell.previous_direction = self.shells[len(self.shells) - 1].direction
             self.shells.append(shell)
@@ -329,8 +329,9 @@ root.overrideredirect(True)
 root.overrideredirect(False)
 root.attributes('-fullscreen', True)
 canv = Canvas(root, width=root.winfo_screenwidth(), height=root.winfo_screenheight(), bg='white')
+canv.create_rectangle(0, 0, 2000, 1100, fill=gr.color_rgb(0, 162, 232))
 bg_image = ImageTk.PhotoImage(Image.open('1.png'))
-bg = canv.create_image(1356/2, 774/2, image=bg_image)
+bg = canv.create_image(1534/2, 876/2, image=bg_image)
 boom_image = ImageTk.PhotoImage(Image.open('boom.png'))
 boom = canv.create_image(200, 1000, image=boom_image)
 poof_image = ImageTk.PhotoImage(Image.open('poof.png'))
