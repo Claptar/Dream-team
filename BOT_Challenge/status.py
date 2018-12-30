@@ -40,4 +40,5 @@ def status():
                                                fill='#DC143C', outline='black')
     text_bot_health = canv.create_text(bot.x + 100, bot.y + 60, text=' {} / 200'.format(Canon.bot.health),
                                        font='arial 12')
+
     root.after(500, status)

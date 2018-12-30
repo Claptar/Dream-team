@@ -86,8 +86,8 @@ class Cannon:
         self.start_time = 0
         self.damage = 20
         self.fire_ready = True
-        self.last_shell_x = 0
-        self.last_shell_y = 0
+        self.last_shell_x = 1000
+        self.last_shell_y = 600
 
     def aim(self, x, y):
         """
