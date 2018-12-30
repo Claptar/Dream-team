@@ -1,9 +1,10 @@
 import math
 import random
 from tkinter import *
-import BOT_Challenge.graphics as gr
+import graphics as gr
 from PIL import Image, ImageTk
-import BOT_Challenge.Landskape as Landskape
+import Landskape as Landskape
+import im
 
 
 class Vector:
@@ -84,6 +85,9 @@ class Cannon:
         self.stop_time = 0
         self.start_time = 0
         self.damage = 20
+        self.fire_ready = True
+        self.last_shell_x = 0
+        self.last_shell_y = 0
 
     def aim(self, x, y):
         """

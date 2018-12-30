@@ -1,7 +1,7 @@
-import BOT_Challenge.Canon as Canon
+import Canon as Canon
 from tkinter import *
-import BOT_Challenge.Canon_generator as cg
-import BOT_Challenge.Landskape as Landskape
+import Canon_generator as cg
+import Landskape as Landskape
 import math
 import random
 root = Canon.root

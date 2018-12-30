@@ -1,13 +1,12 @@
 import math
 import random
-import BOT_Challenge.bot as bot
+import bot as bot
 from tkinter import *
-import BOT_Challenge.Canon as Canon
-import BOT_Challenge.Canon_generator as cg
-import BOT_Challenge.status as status
-import BOT_Challenge.Landskape as Landskape
+import Canon as Canon
+import Canon_generator as cg
+import status as status
+import Landskape as Landskape
 from PIL import Image, ImageTk
-
 
 
 def end(event):

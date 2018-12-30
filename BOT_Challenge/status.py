@@ -1,5 +1,5 @@
-from BOT_Challenge.Canon import *
-from BOT_Challenge.bot import *
+from Canon import *
+from bot import *
 
 
 start_cannon_health = canv.create_rectangle(Canon.cannon.x, Canon.cannon.y + 50,

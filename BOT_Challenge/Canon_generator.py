@@ -1,10 +1,10 @@
 import math
 import random
 from tkinter import *
-import BOT_Challenge.graphics as gr
+import graphics as gr
 from PIL import ImageTk, Image
-import BOT_Challenge.Landskape as Landskape
-import BOT_Challenge.Canon as Canon
+import Landskape as Landskape
+import Canon as Canon
 
 
 def find_place(x_start, x_end):
