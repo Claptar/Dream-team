@@ -18,32 +18,30 @@ cannon_was_found = False
 
 def bot_aim():
     global angle, cannon_was_found
-    num = 0
     if not cannon_was_found:
-        for g in range(len(bot.shells)):
-            if bot.shells[g] != 0:
-                if bot.shells[g].x_down != 0:
-                    num = g
-        if num != 0:
-            if (bot.shells[num].x_down - Canon.cannon.x) < 100 and bot.shells[num].y_down - Canon.cannon.y < 100:
+        if bot.fire_ready:
+            if (bot.last_shell_x - Canon.cannon.x) < 100 and bot.last_shell_y - Canon.cannon.y < 100:
                 cannon_was_found = True
-            elif bot.shells[num].x_down < Canon.cannon.x:
+            elif bot.last_shell_x < Canon.cannon.x:
                 bot.stop_time -= 6
-            elif bot.shells[num].x_down > Canon.cannon.x and bot.shells[num].y_down - Canon.cannon.y > 200:
+            elif bot.last_shell_x > Canon.cannon.x and bot.last_shell_y - Canon.cannon.y > 200:
                 bot.stop_time += 4
                 angle += math.radians(5)
-            elif bot.shells[num].x_down > Canon.cannon.x and bot.shells[num].y_down - Canon.cannon.y < 200:
+            elif bot.last_shell_x > Canon.cannon.x and bot.last_shell_y - Canon.cannon.y < 200:
                 bot.stop_time += 4
+            bot.fire_ready = False
 
 
 def bot_fire():
-    bot_aim()
-    if cannon_was_found:
-        bot.aim(bot.x - 300 * math.cos(angle + math.radians(random.randint(-20, 30))),
-                bot.y - 300 * math.sin(angle + math.radians(random.randint(-20, 30))))
-    else:
-        bot.aim(bot.x - 100*math.cos(angle), bot.y - 100*math.sin(angle))
-    bot.fire()
+    if bot.fire_ready:
+        bot_aim()
+        if cannon_was_found:
+            bot.aim(bot.x - 300 * math.cos(angle + math.radians(random.randint(-10, 10))),
+                    bot.y - 300 * math.sin(angle + math.radians(random.randint(-10, 10))))
+        else:
+            bot.aim(bot.x - 100*math.cos(angle), bot.y - 100*math.sin(angle))
+        bot.fire()
+    bot.fire_ready = False
     root.after(700, bot_fire)
 
 
@@ -56,10 +54,11 @@ def go():
                                            int(bot.shells[g].y)):
                     Canon.poof_drawer(bot.shells[g].x, bot.shells[g].y)
                     if not cannon_was_found:
-                        bot.shells[g + 1].x_down = bot.shells[g].x
-                        bot.shells[g + 1].y_down = bot.shells[g].y
+                        bot.last_shell_x = bot.shells[g].x
+                        bot.last_shell_y = bot.shells[g].y
                     canvas.delete(bot.shells[g].oval)
                     bot.shells[g] = 0
+                    bot.fire_ready = True
                 if bot.shells[g] != 0 and (math.sqrt(
                         (bot.shells[g].x - Canon.cannon.x) ** 2 + (bot.shells[g].y - Canon.cannon.y) ** 2)
                         < bot.cannon_diametr / 2):
@@ -67,6 +66,7 @@ def go():
                     canvas.delete(bot.shells[g].oval)
                     bot.shells[g] = 0
                     bot.score += 1
+                    bot.fire_ready = True
                     if Canon.cannon.health > bot.damage:
                         Canon.cannon.health -= bot.damage
                     else:
