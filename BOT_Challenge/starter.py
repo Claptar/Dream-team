@@ -1,12 +1,8 @@
-import math
-import random
-import bot as bot
+import bot
 from tkinter import *
-import Canon as Canon
-import Canon_generator as cg
-import status as status
-import Landskape as Landskape
-from PIL import Image, ImageTk
+import Canon
+import Canon_generator as Cg
+import status
 
 
 def end(event):
@@ -27,7 +23,7 @@ def death_checker():
 
 
 def game_process():
-    cannon = cg.create(Canon.canv, 100, 300)
+    cannon = Cg.create(Canon.canv, 100, 300)
     bot_cannon = Canon.bot
     Canon.cannon = cannon
     Canon.canv.bind('<Motion>', Canon.mouse_move_handler)
@@ -90,4 +86,3 @@ def finish_game():
 
 
 start()
-

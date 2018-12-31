@@ -27,9 +27,8 @@ def status():
     """
     global current_cannon_health, text_cannon_health, current_bot_health, text_bot_health
     canv.delete(current_cannon_health, text_cannon_health, current_bot_health, text_bot_health)
-    start_cannon_health = canv.create_rectangle(Canon.cannon.x, Canon.cannon.y + 50,
-                                                Canon.cannon.x + 200, Canon.cannon.y + 70,
-                                                fill='white', outline='black')
+    canv.create_rectangle(Canon.cannon.x, Canon.cannon.y + 50, Canon.cannon.x + 200, Canon.cannon.y + 70, fill='white',
+                          outline='black')
     current_cannon_health = canv.create_rectangle(Canon.cannon.x, Canon.cannon.y + 50,
                                                   Canon.cannon.x + Canon.cannon.health/200*200,
                                                   Canon.cannon.y + 70, fill='#00FF00', outline='black')

@@ -1,10 +1,6 @@
-import math
 import random
-from tkinter import *
-import graphics as gr
-from PIL import ImageTk, Image
-import Landskape as Landskape
-import Canon as Canon
+import Landskape
+import Canon
 
 
 def find_place(x_start, x_end):
@@ -18,4 +14,3 @@ def find_place(x_start, x_end):
 def create(canvas, x_start, x_end):
     coordinates = find_place(x_start, x_end)
     return Canon.Cannon(canvas, coordinates[0], coordinates[1])
-

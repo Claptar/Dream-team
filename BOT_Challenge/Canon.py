@@ -1,10 +1,8 @@
 import math
-import random
 from tkinter import *
 import graphics as gr
 from PIL import Image, ImageTk
-import Landskape as Landskape
-import im
+import Landskape
 
 
 class Vector:
@@ -348,6 +346,7 @@ boom_image = ImageTk.PhotoImage(Image.open('boom.png'))
 boom = canv.create_image(200, 1000, image=boom_image)
 poof_image = ImageTk.PhotoImage(Image.open('poof.png'))
 poof = canv.create_image(200, 1000, image=poof_image)
+
 n = 3
 time_counter = 0
 time_checker = False

@@ -1,10 +1,5 @@
-import math
-import random
 from tkinter import *
-import graphics as gr
-from PIL import ImageTk, Image
 import Canon as Canon
-#(0, 162, 232)
 img = PhotoImage(file="land.png")
 check_color = img.get(200, 700)
 

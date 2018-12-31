@@ -1,13 +1,13 @@
-import Canon as Canon
+import Canon
 from tkinter import *
-import Canon_generator as cg
-import Landskape as Landskape
+import Canon_generator as Cg
+import Landskape
 import math
 import random
 root = Canon.root
 canvas = Canon.canv
 canvas.pack(fill=BOTH, expand=1)
-bot = cg.create(canvas, 900, 1300)
+bot = Cg.create(canvas, 900, 1300)
 Canon.bot = bot
 bot.aim(700, 200)
 bot.start_time = 0
@@ -72,5 +72,3 @@ def go():
                     else:
                         Canon.cannon.health = 0
     root.after(10, go)
-
-
