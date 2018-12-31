@@ -1,7 +1,9 @@
 from tkinter import *
-from BOT_Challenge.Canon import *
+from canon import *
 import time
-
+root = Tk()
+root.geometry('800x600')
+canv = Canvas(root, bg="#ffffff")
 canv.pack(fill=BOTH, expand=1)
 f_top = Frame()
 f_bot = Frame()
@@ -16,10 +18,10 @@ def status():
     :return:
     """
     root.after(500, status)
-    current_hero_health = cannon.health
-    current_hero_shells_number = len(cannon.shells) - cannon.shots
-    current_ai_health = bot.health
-    current_ai_shells_number = len(bot.shells) - bot.shots
+    current_hero_health = hero_health
+    current_hero_shells_number = hero_shells_number
+    current_ai_health = ai_health
+    current_ai_shells_number = ai_shells_number
     l1 = Label(f_top, bd=5, text='Текущее здоровье: {}\n'.format(current_hero_health),
                font='Arial 20', bg='#20B2AA')
     l2 = Label(f_bot, bd=5, text='Осталось снарядов: {}'.format(current_hero_shells_number),
