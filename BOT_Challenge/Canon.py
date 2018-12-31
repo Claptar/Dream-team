@@ -1,5 +1,4 @@
 import math
-import random
 from tkinter import *
 import graphics as gr
 from PIL import Image, ImageTk
@@ -52,7 +51,7 @@ class Vector:
 
 
 class Cannon:
-    max_velocity = 1200
+    max_velocity = 120
 
     def __init__(self, canvas, x, y):
         """
@@ -76,7 +75,7 @@ class Cannon:
                                      y - self.cannon_diametr/2,
                                      x + self.cannon_diametr/2,
                                      y + self.cannon_diametr/2,
-                                     outline="black", fill="black")
+                                     outline="#4B0082", fill="#4B0082")
         self.shots = 0
         self.score = 0
         self.health = 200
@@ -84,6 +83,9 @@ class Cannon:
         self.stop_time = 0
         self.start_time = 0
         self.damage = 20
+        self.fire_ready = True
+        self.last_shell_x = 1000
+        self.last_shell_y = 600
 
     def aim(self, x, y):
         """
@@ -127,7 +129,6 @@ class Cannon:
 
         else:
             canv.create_text(200, 20, text="Закончились снаряды", font='Arial 25', )
-            print("Закончились снаряды")
 
     def draw(self, x_gun, y_gun):
         """
@@ -296,10 +297,6 @@ def clear_boom():
 
 def poof_drawer(x, y):
     global poof
-    canv.create_oval(x - Standard_Radius, y - Standard_Radius,
-                     x + Standard_Radius, y + Standard_Radius,
-                     fill=gr.color_rgb(0, 162, 232),
-                     outline=gr.color_rgb(0, 162, 232))
     poof = canv.create_image(x, y, image=poof_image)
     root.after(100, clear_poof)
 
@@ -313,13 +310,20 @@ def line_drawer():
     отрисовка шкалы силы выстрела
     :return:
     """
-    global time_checker, time_counter, line_power
+    global time_checker, time_counter, line_power, line_power_max
     if time_checker:
         canv.delete(line_power)
-        line_power = canv.create_line(20, 700,
-                                      time_counter + 20,
-                                      700,
-                                      width=20, fill="blue")
+        line_power_max = canv.create_line(20, 800, 300, 800, width=20, fill="white")
+        if time_counter < 120:
+            line_power = canv.create_line(20, 800,
+                                          time_counter/120*280 + 20,
+                                          800,
+                                          width=20, fill="#87CEFA")
+        elif time_counter > 120:
+            line_power = canv.create_line(20, 800,
+                                          300,
+                                          800,
+                                          width=20, fill="#87CEFA")
     root.after(100, line_drawer)
 
 
@@ -330,22 +334,23 @@ root.overrideredirect(False)
 root.attributes('-fullscreen', True)
 canv = Canvas(root, width=root.winfo_screenwidth(), height=root.winfo_screenheight(), bg='white')
 canv.create_rectangle(0, 0, 2000, 1100, fill=gr.color_rgb(0, 162, 232))
-bg_image = ImageTk.PhotoImage(Image.open('1.png'))
+bg_image = ImageTk.PhotoImage(Image.open('bg.png'))
 bg = canv.create_image(1534/2, 876/2, image=bg_image)
+land_image = ImageTk.PhotoImage(Image.open('land.png'))
+land = canv.create_image(1534/2, 876/2, image=land_image)
 boom_image = ImageTk.PhotoImage(Image.open('boom.png'))
 boom = canv.create_image(200, 1000, image=boom_image)
 poof_image = ImageTk.PhotoImage(Image.open('poof.png'))
 poof = canv.create_image(200, 1000, image=poof_image)
-im = PhotoImage()
 n = 3
 time_counter = 0
 time_checker = False
-line_power = canv.create_line(20, 700,
+line_power = canv.create_line(20, 800,
                               time_counter / 100 + 20,
-                              700,
-                              width=20, fill="blue")
+                              800,
+                              width=20, fill="#87CEFA")
 G = 9.8  # Ускорение свободного падения для снаряда.
 Standard_Radius = 10
 cannon = Cannon(canv, 1, 1000)
-#score_text = canv.create_text(200, 60, text='Попадания score = {} '.format(cannon.score), font='Arial 25', )
 bot = Cannon(canv, 1, 10000)
+
