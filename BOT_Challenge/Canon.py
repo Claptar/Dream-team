@@ -297,10 +297,6 @@ def clear_boom():
 
 def poof_drawer(x, y):
     global poof
-    # canv.create_oval(x - Standard_Radius, y - Standard_Radius,
-    #                  x + Standard_Radius, y + Standard_Radius,
-    #                  fill=gr.color_rgb(0, 162, 232),
-    #                  outline=gr.color_rgb(0, 162, 232))
     poof = canv.create_image(x, y, image=poof_image)
     root.after(100, clear_poof)
 
@@ -346,7 +342,6 @@ boom_image = ImageTk.PhotoImage(Image.open('boom.png'))
 boom = canv.create_image(200, 1000, image=boom_image)
 poof_image = ImageTk.PhotoImage(Image.open('poof.png'))
 poof = canv.create_image(200, 1000, image=poof_image)
-
 n = 3
 time_counter = 0
 time_checker = False
