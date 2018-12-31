@@ -1,7 +1,6 @@
 from tkinter import *
 from canon import *
 import time
-
 root = Tk()
 root.geometry('800x600')
 canv = Canvas(root, bg="#ffffff")

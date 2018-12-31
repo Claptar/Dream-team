@@ -67,6 +67,4 @@ class BlackDragon(Dragon):
         self.__quest = str(x) + '*' + str(y)
         self.set_answer(x * y)
         return self.__quest
-
-
 enemy_types = [GreenDragon, RedDragon, BlackDragon]
